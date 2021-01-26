@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control" />
+    <meta content="no-cache" http-equiv="Pragma" />
+    <meta content="0" http-equiv="Expires" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+
+    <link rel="stylesheet" href="static/css/zui.min.css">
+    <link rel="stylesheet" href="static/css/zui-theme.css">
+    <link rel="stylesheet" href="static/css/response.css">
+    <link rel="stylesheet" href="static/css/redefine.css">
+    <link rel="stylesheet" href="static/css/alivideo.css">
+    <script language="JavaScript" type="text/javascript" src="static/js/data.js"></script>
+    <script language="JavaScript" type="text/javascript" src="static/js/jquery-1.9.1.js"></script>
+    <script language="JavaScript" type="text/javascript" src="static/js/zui.js"></script>
+    <script language="JavaScript" type="text/javascript" src="tour.js"></script>
+    <script language="JavaScript" type="text/javascript" src="static/js/vrshow.js"></script>
+    <script language="JavaScript" type="text/javascript" src="static/js/alivideo.js"></script>
+     <script language="JavaScript" type="text/javascript" src="static/js/object.js"></script>
+    <style>
+        @-ms-viewport { width:device-width; }
+        @media only screen and (min-device-width:800px) { html { overflow:hidden; } }
+        html { height:100%; }
+        body { height:100%; overflow:hidden; margin:0; padding:0; font-family:microsoft yahei, Helvetica, sans-serif;  background-color:#000000; }
+    </style>
+</head>
+<body>
+
+
+<!-- <style>
+.btn_bgmusic {
+    background: url("/plugin/bgmusic/images/bgmusic-open.png") no-repeat;
+}
+
+.btn_bgmusic_off {
+    background: url("/plugin/bgmusic/images/bgmusic-close.png") no-repeat;
+}
+</style>
+ --><div class="btn_bgmusic" onClick="pause_bgMusic(this)" style="display:none"></div>
+<script>
+	$(function(){
+		plugins_init_function.push(bgmusic_init);
+		console.log(location.search);
+		
+	})
+	function bgmusic_init(data,settings){
+		 //背景音乐
+        var musicObj = data.bg_music;
+        if (musicObj.isWhole=='1') {
+            if (musicObj.useMusic=='1') {
+                settings["onstart"] += "playsound(bgmusic, '" + musicObj.mediaUrl + "', 0);";
+            }
+        } else {
+            $(musicObj.sceneSettings).each(function (idx) {
+                if (this.useMusic=='1') {
+                    settings['scene[scene_' + this.imgUuid + '].bgmusic'] = this.mediaUrl;
+                }
+            });
+        }
+       settings["events[skin_events].onloadcomplete"]+="js(toggleMusicBtn(get(xml.scene)));";
+	}
+	function toggleMusicBtn(sceneName) {
+	    var musicObj = $("body").data("panoData").bg_music;
+	    if (musicObj.isWhole=='1') {
+	        if (musicObj.useMusic=='1') {
+	            $('.btn_bgmusic,.btn_bgmusic_off').show();
+	        } else {
+	            $('.btn_bgmusic,.btn_bgmusic_off').hide();
+	        }
+	    } else {
+	        var imgUuid = sceneName.substring(sceneName.indexOf("_") + 1, sceneName.length).toLowerCase();
+	        $(musicObj.sceneSettings).each(function (idx) {
+	            if (imgUuid == this.imgUuid) {
+	                if (this.useMusic=='1') {
+	                    $('.btn_bgmusic,.btn_bgmusic_off').show();
+	                } else {
+	                    $('.btn_bgmusic,.btn_bgmusic_off').hide();
+	                }
+	            }
+	        });
+	    }
+	}
+	function pause_bgMusic(el) {
+	    var krpano = document.getElementById('krpanoSWFObject');
+	    // krpano.call("pausesoundtoggle(bgmusic);pausesoundtoggle(bgm);");
+	    krpano.call("pausesoundtoggle(bgmusic);pausesoundtoggle(bgm);");
+	    toggleMusic(el);
+	}
+	function toggleMusic(el) {
+	    if ($(el).hasClass("btn_bgmusic")) {
+	        $(el).removeClass("btn_bgmusic");
+	        $(el).addClass("btn_bgmusic_off");
+	    } else {
+	        $(el).removeClass("btn_bgmusic_off");
+	        $(el).addClass("btn_bgmusic");
+	    }
+	}
+</script><!--<div class="btn_cards" onClick="showcard()"  style="display:none"  ></div>
+<div class="btn_cards" onClick="showcard()"  "title="名片" ></div> -->
+<div class="btn_cards"  title="企业名片" style="display:none"></div><!-- <style>
+	.btn_music {
+	    background: url("/plugin/bgvoice/images/music-open.png") no-repeat;
+	}
+	.btn_music_off {
+	    background: url("/plugin/bgvoice/images/music-close.png") no-repeat;
+	}
+</style> -->
+<div class="btn_music" style="display:none" onClick="pauseSpeech(this)"></div>
+<script>
+	$(function(){
+		plugins_init_function.push(bgvoice_init);
+	})
+	function bgvoice_init(data,settings){
+		var speechObj = data.speech_explain;
+		if(speechObj.isWhole=='1'){
+		    if(speechObj.useSpeech=='1'){
+		        settings["onstart"] += "playsound(bgspeech, '"+speechObj.mediaUrl+"', 0);";
+		    }
+		}else{
+		    $(speechObj.sceneSettings).each(function(idx){
+		        if(this.useSpeech=='1'){
+		            settings['scene[scene_'+this.imgUuid+'].bgspeech'] = this.mediaUrl;
+		        }
+		    });
+		}
+		settings["events[skin_events].onloadcomplete"]+="js(toggleSpeechBtn(get(xml.scene)));";
+	}
+	function toggleSpeechBtn(sceneName){
+	    var speechObj = $("body").data("panoData").speech_explain;
+	    if(speechObj.isWhole=='1'){
+	        if(speechObj.useSpeech=='1'){
+	            $('.btn_music').show();
+	        }else{
+	            $('.btn_music').hide();
+	        }
+	    }else{
+	        var imgUuid = sceneName.substring(sceneName.indexOf("_")+1,sceneName.length).toLowerCase();
+	        $(speechObj.sceneSettings).each(function(idx){
+	            if(imgUuid == this.imgUuid){
+	                if(this.useSpeech=='1'){
+	                    $('.btn_music').show();
+	                }else{
+	                    $('.btn_music').hide();
+	                }
+	            }
+	        });
+	    }
+	}
+	function pauseSpeech(el){
+	    var krpano = document.getElementById('krpanoSWFObject');
+	    krpano.call("pausesoundtoggle(bgspeech);pausesoundtoggle(bgs);");
+	    toggleSpeech(el);
+	}
+	function toggleSpeech(el) {
+	    if ($(el).hasClass("btn_music")) {
+	        $(el).removeClass("btn_music");
+	        $(el).addClass("btn_music_off");
+	    } else {
+	        $(el).removeClass("btn_music_off");
+	        $(el).addClass("btn_music");
+	    }
+	}
+</script><style>
+  @media screen and (max-width: 767px) {
+    .mobile_hide{
+      display: none;
+    }
+  }
+</style>
+<div id="plane" class="plane_on mobile_hide" onClick="plane(this)" title="" style="display:none "></div>
+<script>
+	$(function(){
+		plugins_init_function.push(plane_init);
+	})
+
+    //settings["events[skin_events].onloadcomplete"]+="js(toggleMusicBtn(get(xml.scene)));";
+    function plane_init(data){
+		if(data.hideplane_flag=='1'){
+		    $("#plane").show();
+		}else{
+		   	$("#plane").hide();
+		}
+	}	
+</script>            </div>
+            <div class="vrshow_radar_btn" onClick="toggleKrpSandTable()">
+                <!-- <span class="btn_sand_table_text">沙盘</span> -->
+            </div>
+            <div class="vrshow_tour_btn" onClick="startTourGuide()">
+                <span class="btn_tour_text">一键导览</span>
+            </div>
+            <div class="vrshow_container_2_min"> <div class="img_desc_container_min" id="profileDiv">
+    <img src="/static/images/skin1/vr-btn-desc.png" onClick="showProfile()">
+    <div class="img_desc_min">简介</div>
+</div>
+
+            </div>
+            <div class="vrshow_container_3_min">
+                <div class="img_desc_container_min scene-choose-width" style="display:none">
+                    <img src="static/images/skin1/vr-btn-scene.png" onClick="showthumbs()">
+                    <div class="img_desc_min">场景选择</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="pano" style="width:100%; height:100%;">
+        </div>
+		
+		<div class="modal" id="pictextModal" data-backdrop="static" data-keyboard="false" style="z-index:2002">
+            <div class="modal-dialog">
+                <div class="modal-header text-center" >
+                    <button type="button" class="close" onClick="hidePictext()"><span>&times;</span></button>
+                    <span style="color: #353535;font-weight:700" id="pictextWorkName"></span>
+                </div>
+                <div class="modal-body" style="height:400px;overflow-y:scroll ">
+                    <div class="row">                   
+                        <div class="col-sm-offset-1 col-md-offset-1 col-md-10 col-sm-10 col-xs-12" id="pictextContent">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="logreg">
+        </div><script>
+$(function(){
+	plugins_init_function.push(showlogo_init);
+})
+function showlogo_init(data){
+	if(data.hidelogo_flag=='1'){
+        $("#logoImg").hide();
+    }else{
+    	$("#logoImg").show();
+    }
+}
+</script>
+<script>
+$(function(){
+    $("#logoImg").show();
+	plugins_init_function.push(custom_logo_init);
+})
+function custom_logo_init(data){
+	var logoObj = data.custom_logo;
+	if(logoObj){
+		if(logoObj.useCustomLogo)
+        	$('.vrshow_container_logo img').attr('src',logoObj.logoImgPath);
+        if(logoObj.logoLink)
+            $('.vrshow_container_logo img').attr('onclick','javascript:window.open("'+logoObj.logoLink+'")');
+        
+    }
+}
+</script>
+
+
+<script>
+$(function(){
+	plugins_init_function.push(showvrglass_init);
+})
+function showvrglass_init(data,settings){
+	settings['skin_settings.webvr'] = data.hidevrglasses_flag==1 ? false : true;
+}
+function showWebvrBtn(){
+    $('.btn_vrmode').show();
+}
+</script>
+<script>
+$(function(){
+	plugins_init_function.push(showreward_init);
+})
+
+function showreward_init(data){
+	if(data.hidereward_flag !== '1'){
+        $('.btn_reward').hide();
+    }else{
+    	$('.btn_reward').show();
+    }
+}
+
+</script>
+<script>
+$(function(){
+	plugins_init_function.push(showcompass_init);
+})
+function showcompass_init(data,settings){
+	if (data.hidecompass_flag=='1') {	
+		settings["events[skin_events].onloadcomplete"] += "js(showCompass());";
+	}
+}
+function showCompass(){
+	var krpano = document.getElementById('krpanoSWFObject');
+	krpano.set("layer[compass].visible",true);
+}
+</script>
+<script>
+$(function(){
+	plugins_init_function.push(gyro_init);
+})
+function gyro_init(data,settings){
+	 if (data.gyro!="0") {
+            $(".btn_gyro").show;
+     }
+     settings['skin_settings.gyro'] = data.gyro=="1" ? true : false;
+}
+function showGyroBtn() {
+    var gyro = $("body").data("panoData").gyro;
+    if (gyro) {
+        var krpano = document.getElementById('krpanoSWFObject');
+        krpano.set("plugin[skin_gyro].enabled",true);
+        $(".btn_gyro").show();
+    }
+}
+
+function toggleGyro(el) {
+    var krpano = document.getElementById('krpanoSWFObject');
+    if ($(el).hasClass("btn_gyro")) {
+        krpano.set("plugin[skin_gyro].enabled",false);
+        $(el).removeClass("btn_gyro");
+        $(el).addClass("btn_gyro_off");
+    } else {
+        krpano.set("plugin[skin_gyro].enabled",true);
+        $(el).removeClass("btn_gyro_off");
+        $(el).addClass("btn_gyro");
+    }
+}
+function openGyro(){
+    var krpano = document.getElementById('krpanoSWFObject');
+    alert(krpano.get("plugin[skin_gyro].isavailable"));
+}
+</script>
+<script>
+	$(function(){
+		plugins_init_function.push(link_init);
+	   $('#mapMarkModal').on('hide.zui.modal', function (e) {
+	        toggleBtns(true);
+	    });
+	})
+	function link_init(data){
+		$(".vrshow_container_3_min .img_desc_container_min:first").nextAll().remove();
+	//	console.log(1);
+		if (data.url_phone_nvg.linkSettings && data.url_phone_nvg.linkSettings.length > 0) {
+	//		console.log(2);
+		    $(data.url_phone_nvg.linkSettings).each(function(idx){
+
+		        var imgSrc = this.imgPath;
+		        var title = this.title;
+		        var htmlStr = '';
+		   //     console.log("this.type"+this.type);
+		        if(this.type == 0){
+		   //         console.log(11);
+		        	
+		            var locationData = this.content;
+		            htmlStr += '<div class="img_desc_container_min img_add" >'+
+		                '<img src="'+imgSrc+'" onclick="openMapModal(this,true)">'+
+		                '<div class="img_desc_min">'+title+'</div>'+
+		                '</div>';
+		            $(".vrshow_container_3_min").append(htmlStr);
+		            //$(".vrshow_container_3_min > div:last img").data("locationData",locationData);
+		            
+		        }else{
+		     //   	console.log(12);
+		            var url = this.content;
+                    url=url.replace("-","");
+		            if(!isNaN(url)){
+		                url = "tel://" + url;
+		            }else{
+		                if(url.indexOf('http://') != 0&&url.indexOf('https://') != 0){
+		                    url = 'http://' + url;
+		                }
+		            }
+		            htmlStr += '<div class="img_desc_container_min img_add" >'+
+		                '<img src="'+imgSrc+'" onclick="lookLinkUrl(\''+url+'\')" '+(isIos()?'':'data-toggle="tooltip"')+' title="'+(url.length > 20 ? url.substring(0,20)+'...' : url)+'">'+
+		                '<div class="img_desc_min">'+title+'</div>'+
+		                '</div>';
+		            $(".vrshow_container_3_min").append(htmlStr);
+		        }
+		    });
+		    $('.vrshow_container_3_min [data-toggle=tooltip]').tooltip({});
+		}
+	}
+	function isIos(){
+		var ua = navigator.userAgent.toLowerCase();	
+		if (/iphone|ipad|ipod/.test(ua)) {
+				return true;	
+		} 
+		return false;
+	}
+	function lookLinkUrl(url){
+	
+    	window.open(url);
+	}
+	function openMapModal(el,readonly){
+		// toggleBtns();
+	    mapModalEl = el;
+	    //_U.mapMarkModal().openModal($(mapModalEl).data("locationData"),readonly);
+	    console.log(mapModalEl.lng);
+	    //console.log(mapModalEl.lat);
+	   // console.log($(mapModalEl).data("locationData").lng);
+	    lng;
+	   console.log($(mapModalEl).data("locationData").lat);
+	    lat;
+	    model='<div style="position:absolute;left:25%;'+
+'top:10%;width:50%;height:60%;border:1px solid #ccc;background:#fff;z-index:9999;'+
+'border-radius:15px;"class="diaLog_qq">'+
+'<div style="position:absolute;left:0;top:0;height:50px;line-height:50px;padding-left:10px;">导航'+
+'</div>'+
+'<iframe src="http://3gimg.qq.com/lightmap/v1/marker/?referer=myapp;&amp;key=YK6BZ-XG7KX-4A244-7FPRA-'+'ESPTF-ZOBPF&marker=coord:'+lat+','+lng+'"'+
+		'frameborder="0" width="100%" height="88%" style="position:absolute;left:0;top:50px;">'+
+		'</iframe>'+
+		'<div class="s_close" style="position: absolute;right:20px;top:10px;'+
+		'width: 120px;height:30px;border:1px solid #ccc;text-align: center;line-height: 30px;border-radius:10px;">'+
+		'<a href="javascript:;" style="text-decoration:none;color:#000">'+
+		'关闭</a>'+
+		'</div>'+
+	'</div>';
+		//console.log(model);
+		if($(window).width()>1024){
+		//	alert("PC"+$(window).width());
+			$("#fullscreenid").append(model);
+		}
+		else{
+		
+			//alert("mobile"+$(window).width());
+			window.location.href="http://3gimg.qq.com/lightmap/v1/marker/?referer=myapp;&amp;key=ETYBZ-OUAW4-O3GU6-DCKMA-MNSPH-PSBSD&marker=coord:"+lat+","+lng;
+		//	console.log(model);
+		}
+	 
+	    $(".s_close").click(function(){
+			$(".diaLog_qq").remove();
+		});
+	}
+</script>
+<script>
+$(function(){
+	$("#authorDiv").show();
+	plugins_init_function.push(custom_user_init);
+})
+function custom_user_init(data){
+	var logoObj = data.custom_logo;
+	if(logoObj && logoObj.user){
+        $("#user_nickName").text(logoObj.user);
+    }
+}
+</script>
+
+
+<script>
+	$(function(){
+		plugins_init_function.push(open_alert_init);
+	})
+	function open_alert_init(data,settings){
+		if (data.open_alert.useAlert=='1') {
+            settings["events[skin_events].onloadcomplete"] += "show_open_alert('" + data.open_alert.imgPath + "');";
+        }
+	}
+</script>
+<script>
+	$(function(){
+		plugins_init_function.push(custom_right_init);
+	})
+	function custom_right_init(data){
+		// $(".vrshow_container_3_min .img_desc_container_min:first").nextAll().remove();
+		// if (data.url_phone_nvg.linkSettings && data.url_phone_nvg.linkSettings.length > 0) {
+		//     $(data.custom_right_button.linkSettings).each(function(idx){
+		//         var title = this.title;
+		//         var htmlStr = '';
+		//         var url = this.content;
+	 //            if(!isNaN(url)){
+	 //                url = "tel://" + url;
+	 //            }else{
+	 //                if(!(url.indexOf('http://') == 0)){
+	 //                    url = 'http://' + url;
+	 //                }
+	 //            }
+	          
+		//     });
+		// }
+		
+	}
+	function lookLinkUrl(url){
+    	window.open(url);
+	}
+	
+</script>
+<style>
+ .vcard p {
+            background: url(/static/images/card-icon.gif) left top no-repeat;
+            color: #1d1d1d;
+            line-height: 27px;
+            margin: 0 0 5px;
+            padding: 0 0 0 36px;
+            overflow:hidden;
+            white-space:nowrap;  
+            text-overflow:ellipsis;
+        }
+        .vcard .phone {
+            background-position: 0 -32px;
+        }
+
+        .vcard .email {
+            background-position: 0 -65px;
+        }
+
+        .vcard .address {
+            background-position: 0 -194px;
+        }
+
+        .vcard .wechat {
+            background-position: 0 -162px;
+        }
+        .vcard .qq {
+            background-position: 0 -97px;
+        }
+
+        .vcardLogo {
+    height: 70px;
+    margin: auto auto 42px;
+}
+
+        
+        .vcard h4 {
+    color: #013364;
+    font-size: 18px;
+    font-weight: 400;
+    height: 32px;
+    line-height: 32px;
+    margin: 0 0 10px;
+      white-space:nowrap;  
+            text-overflow:ellipsis;
+}
+</style>
+<div class="modal" id="vcardModal" data-backdrop="static" data-keyboard="false" style="z-index:2002">
+    <div class="modal-dialog">
+        <div class="modal-header text-center"  style="border-bottom:0px;">          
+            <button type="button" class="close" onClick="hideVcard();"><span>&times;</span></button>
+             
+        </div>
+        <div class="modal-body">
+                <div class="row text-center" style="margin-top:-40px;">
+                        <div class="col-sm-12 col-xs-12 cardLogo"><img src="/plugin/custom_logo/images/custom_logo.png"  height="70" /></div>
+                </div>
+                <div class="row" >
+                    <div class="col-sm-5 col-xs-12 text-center wxLogo" > <img src="/static/images/kr/wx.png" height="222"  style="margin-top:25px;border:1px solid #d3d3d3" /></div>
+                    <div class="col-sm-6  col-xs-12">               
+                            <div class="vcard" style="margin-top:35px;">
+                                <h4 class="company"></h4>
+                                <p class="phone"></p>
+                                <p class="email"><a href="###"></a></p>
+                                <p class="address"></p>
+                                <p class="wechat"><a href="###"></a></p>
+                                <p class="qq"></p>
+                            </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+$(function(){    
+   plugins_init_function.push(vcard_init);
+   $('.btn_cards').click(function(){   
+        $('#vcardModal').modal('show');       
+        toggleBtns(false);
+        if($('.vrshow_radar_btn').size()>0 && $('.vrshow_radar_btn').is(":visible")){ 
+            $('.vrshow_radar_btn').trigger('click');
+        }
+   })
+}) 
+function vcard_init(data){ 
+    if(data.vcard&& data.vcard.flag_vcard==1){  
+         $('.btn_cards').show();
+         $('#vcardModal').find('.company').text('公司：'+data.vcard.company);
+         $('#vcardModal').find('.phone').text('电话：'+data.vcard.phone);
+         $('#vcardModal').find('.email>a').text('Email：'+data.vcard.email).attr('href','mailto:'+data.vcard.email);
+         $('#vcardModal').find('.address').text('地址：'+data.vcard.addr);
+         $('#vcardModal').find('.wechat>a').text('网址：'+data.vcard.wx).attr('href','' +data.vcard.wx);
+         $('#vcardModal').find('.qq').text('座机/QQ：'+data.vcard.qq);
+         $('#vcardModal').find('.cardLogo img').attr('src',data.vcard.logo);
+         $('#vcardModal').find('.wxLogo img').attr('src',data.vcard.wx_logo);
+    } 
+}  
+
+
+function hideVcard(){
+    $('#vcardModal').modal('hide');
+    toggleBtns(true);
+}
+
+/*
+function showCard(){   
+    var krpano = document.getElementById('krpanoSWFObject');
+    krpano.call("showCard('/member/vcard?act=view&view_uuid="+_view_uuid+"');");
+
+}
+*/
+
+</script>
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+
+a,img {
+	border: 0;
+}
+/*reset样式重置*/
+#menu {
+	width: 100%;
+	position: fixed;
+	z-index: 9999;
+	bottom: 0px;
+	left: 0px;
+}
+
+#menu ul,#menu li, #menu ol {
+	list-style: none
+}
+
+#menu .btn3 {
+	width: 100%;
+	text-align: center;
+	-webkit-transform: translate3d(0,0,0);
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#697077), to(#3F434E), color-stop(60%, #464A53));
+}
+
+#menu .menu {
+	position: relative;
+	float: left;
+	width: 33.33%;
+	height: 35px;
+	line-height: 35px;
+	background: rgba(255, 255, 255, 0.7);
+	-webkit-box-orient: horizontal;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#697077), to(#3F434E), color-stop(60%, #464A53));
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+}
+
+#menu .menu>.bt-name {
+	-webkit-box-flex: 1;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.1)), color-stop(50%, rgba(0, 0, 0, 0.4)), to(rgba(0, 0, 0, 0.5))), -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255, 255, 255, 0.1)), color-stop(50%, rgba(255, 255, 255, 0.15)), to(rgba(255, 255, 255, 0.15)));
+	; -webkit-background-size: 1px 100%, 1px 100%;
+	background-size: 1px 100%, 1px 100%;
+	background-position: 1px center, 2px center;
+	background-repeat: no-repeat;
+	position: relative;
+	text-align: center;
+}
+
+#menu .menu>div>a {
+	text-decoration: none;
+}
+
+#menu .menu>div>a:hover {
+	background-color: #333;
+}
+
+#menu .menu:last-child {
+	border-right: none;
+}
+
+#menu .new-sub>ul {
+	padding-left: 0px;
+}
+
+#menu .new-sub {
+	position: absolute;
+	bottom: 60px;
+	z-index: 10;
+	width: 100%;
+	padding: 0px 10px;
+	border-radius: 5px;
+	display: none;
+	background: red;
+	border: 1px solid #3D3D46;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#697077), to(#3F434E), color-stop(60%, #464A53));
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+#menu .new-sub li:first-child {
+	background: none;
+}
+
+#menu .new-sub li {
+	width: 100%;
+	float: none;
+	line-height: 50px;
+	text-align: center;
+	background: -webkit-gradient(linear, 0 0, 100% 0, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 0)), color-stop(50%, rgba(255, 255, 255, 0.15))), -webkit-gradient(linear, 0 0, 100% 0, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0)), color-stop(50%, rgba(0, 0, 0, 0.4)));
+	background-size: 100% 1px, 100% 1px;
+	background-repeat: no-repeat;
+	background-position: center 2px, center 1px;
+}
+
+#menu .new-sub li a {
+	display: block;
+	height: 40px;
+	line-height: 40px;
+	text-align: left;
+	color: #d5d5d5;
+	border: none;
+	text-decoration: none;
+	text-align: center;
+	font-size: 14px;
+}
+
+#menu  .sanjiao {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+/*	border-right: 5px solid #000;
+	border-bottom: 5px solid #000; 
+  <img src="/plugin/custom_bottom_menu/images/liebiao.png" height="22" border="0">
+  */
+	opacity: .5;
+}
+
+#menu .bt-name {
+	font-size: 14px;
+}
+
+#menu .bt-name a {
+	display: block;
+	font-size: 14px;
+	color: #d5d5d5;
+}
+
+#menu em {
+	display: block;
+	overflow: hidden;
+	border: 10px solid #06a;
+	border-color: #404450 transparent;
+	border-width: 10px 10px 0 10px;
+	position: absolute;
+	left: 50%;
+	top: 100%;
+	margin-left: -6px;
+}
+</style>
+<div id="menu">	
+</div>
+<script type="text/javascript">
+$(function(){
+    plugins_init_function.push(ls_bottom_menu);
+})
+function bindBottemMenus(){
+		//弹出垂直菜单
+		$(".menu").click(function() {
+		    if ($(this).hasClass("cura")) {
+		        $(this).children(".new-sub").hide();
+		        $(".menu").removeClass("cura"); 
+		    } else {
+		        $(".menu").removeClass("cura"); 
+		        $(this).addClass("cura"); 
+		        $(".menu").children(".new-sub").slideUp("fast"); 
+            if( $(this).children(".new-sub").find("li").size()>0){
+  		        $(this).children(".new-sub").slideDown("fast");       
+            }
+		    }
+		});
+		
+}
+ 
+function ls_bottom_menu(data){     
+          var reval =''; 
+          var ms  = data.bottom_menu;                                 
+          if(ms!=null && ms.length>0){  
+            $('.vrshow_container_2, .vrshow_container_2_min').css("bottom","32px");
+            $('.vrshow_container_3, .vrshow_container_3_min').css("bottom","32px");             
+        reval += "<div class=\"btn3 clearfix\">";
+        reval += " ";       
+              for(var i=0;i<ms.length;i++){   
+                if(ms[i].pid != "0") continue; 
+                reval += "    <div class=\"menu\"";
+                 if(ms[i].pct){
+                    reval += "style=\"width:"+ms[i].pct+"%\"";
+                  }
+                  reval +=">";
+          reval += "        <div class=\"bt-name\"><a  ";  
+          if(!ms[i].isnew) reval += "  class='fancy iframe'  ";       
+          reval += "       href='"+(ms[i].url?ms[i].url:'javascript:;')+"' target='_blank'>"+ "<img src=\"/plugin/custom_bottom_menu/images/liebiao.png\" height=\"22\" border=\"0\">"+ms[i].title+"</a></div>";
+          reval += "        <div class=\"sanjiao\"></div>";
+          reval += "        <div class=\"new-sub\">";
+          reval += "            <ul >";
+          for(var j=0;j<ms.length;j++){  
+                    if(ms[j].pid=="0") continue;                      
+                    if(ms[j].pid==ms[i].id){    
+                         reval += "     <li>               <a ";
+                         if(!ms[j].isnew) reval += "  class='fancy iframe'  ";       
+                         reval+= " target=\"_blank\" href=\""+ms[j].url+"\">"+ms[j].title+"</a> </li>                 ";
+                    }
+                  }
+          reval += "            <em></em></ul>";
+           
+          reval += "        </div>";
+          reval += "               ";
+          reval += "    </div> ";                    
+              }         
+          reval += "</div>";
+       
+              $('#menu').html(reval);
+              $('#menu .menu').each(function(){
+                if($(this).find("li").size()>0){                
+                  $(this).find('.bt-name>a').removeClass("fancy iframe").removeAttr('href').removeAttr('target');
+                }
+              })
+              bindBottemMenus();
+          }
+    
+}
+</script>
+<style>
+/*	#topAdcontent{
+		background: rgba(204, 204, 204, 0.5);
+		height: 20px
+		 line-height: 20px;
+	    color: #353535;
+	    font-size: 16px;
+	}*/
+</style>
+
+<script>
+var ad_sys_default = "top_ad";
+var ad_top_show;
+$(function(){
+	plugins_init_function.push(top_ad_init);
+})
+function top_ad_init(data,settings){
+	var data = data.top_ad;
+	
+	if(data&&data.show!="0"){
+		if (data.adcontent&&data.adcontent.length>0) {
+			$("#top_ad marquee").text(data.adcontent);
+			// $("#top_ad").show();
+			ad_top_show=1;
+			$(".vrshow_container_logo").css('top','45px');
+			$(".vrshow_container_1_min").css('top','45px');
+			set_sytem_logo_style();
+		}else if(ad_sys_default.length>0&&data.allow_sys=='1'){
+			$("#top_ad marquee").text(ad_sys_default);
+			// $("#top_ad").show();
+			ad_top_show=1;
+			$(".vrshow_container_logo").css('top','45px');
+			$(".vrshow_container_1_min").css('top','45px');
+			set_sytem_logo_style();
+		}else{
+			$("#top_ad").hide();
+		}
+    }else{
+			$("#top_ad").hide();
+	}
+}
+function set_sytem_logo_style(){
+	if ($(document).width()<=768) {
+		$("#system_logo").css('width','120px').css('top','90px');
+	}else{
+		$("#system_logo").css('top','115px');
+	}
+}
+</script>
+
+
+<script>
+$(function(){
+		plugins_init_function.push(start_cover_init);
+	})
+
+</script>
+
+
+<script>
+	$(function(){
+		plugins_init_function.push(start_cover_init);
+	})
+	function start_cover_init(data,settings){	
+         //启动画面
+        var loadingObj = data.loading_img;
+        if (loadingObj && loadingObj.useLoading) {
+            settings["onstart"] += "showloadingimg('" + loadingObj.loadingImgPathWebsite + "','" + loadingObj.loadingImgPathMobile + "');";
+        }
+	}
+</script>
+<script>
+	$(function(){
+		plugins_init_function.push(shade_sky_floor_init);
+	})
+	function shade_sky_floor_init(data,settings){
+		if (data.sky_land_shade.isWhole) {//全局遮罩
+		    var useShade = data.sky_land_shade.useShade;
+		    if (useShade) {
+		        var imgPath = data.sky_land_shade.shadeSetting.imgPath;
+		        var location = data.sky_land_shade.shadeSetting.location;
+		        if (location == 0) {
+		            location = -90;
+		        } else {
+		            location = 90;
+		        }
+		        settings["events[skin_events].onloadcomplete"] += "show_shade('" + imgPath + "'," + location + ",true);";
+		    }
+		} else {//单场景遮罩
+		    settings["events[skin_events].onloadcomplete"]+="js(getShade(get(xml.scene)));";
+		}
+	}
+	function getShade(sceneName) {
+	    var imgUuid = sceneName.substring(sceneName.indexOf('_') + 1).toLowerCase();
+	    var panoData = $("body").data("panoData");
+	    var shadeSetting = panoData.sky_land_shade.shadeSetting;
+	    if (shadeSetting) {
+	        for(var i = 0;i < shadeSetting.length ; i++){
+	            var obj = shadeSetting[i];
+	           if(imgUuid == obj.imgUuid){
+	               var useShade = obj.useShade;
+	               if (useShade) {
+	                   var imgPath = obj.imgPath;
+	                   var location = obj.location;
+	                   if (location == 0) {
+	                       location = -90;
+	                   } else {
+	                       location = 90;
+	                   }
+	                   var krpano = document.getElementById('krpanoSWFObject');
+	                   krpano.call("addShade('" + imgUuid + "','" + imgPath + "'," + location + ");");
+	               }
+	           }
+	        }
+	    }
+	}
+</script>
+
+<script>
+$(function(){
+	plugins_init_function.push(showuser_init);
+})
+function showuser_init(data){
+	if(data.hideuser_flag=='1'){
+        $("#authorDiv").hide();
+    }else{
+    	$("#authorDiv").show();
+    }
+}
+</script>
+<script>
+$(function(){
+	plugins_init_function.push(showviewnum_init);
+})
+function showviewnum_init(data){
+	if(data.hideviewnum_flag=='1'){
+        $("#viewnumDiv").hide();
+    }
+    
+  
+}
+</script>
+<div class="modal" id="infomationModal" data-backdrop="static" data-keyboard="false" style="z-index:2002">
+    <div class="modal-dialog">
+        <div class="modal-header text-center" >
+            <button type="button" class="close" onClick="hideProfile()"><span>&times;</span></button>
+            <span style="color: #353535;font-weight:700" id="profileWorkName"></span>
+        </div>
+        <div class="modal-body" style="height:450px;overflow-y:scroll ">
+            <div class="row">
+                <div class="col-sm-offset-1 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+                    <span id="profileProfile"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+         plugins_init_function.push(profile_init);
+    })
+    function profile_init(data){
+       if(data.hideprofile_flag == '1'||data.profile==""||data.profile==null){
+            $("#profileDiv").hide();
+        }
+    }
+    function hideProfile() {
+        $('#infomationModal').modal('hide');
+        toggleBtns(true);
+    }
+    function showProfile() {
+        toggleBtns(false);
+        var data = $("body").data("panoData");
+        $('#profileWorkName').text('');
+        $('#profileProfile').text('');
+        $('#profileWorkName').text(data.name);
+        $('#profileProfile').html(data.profile==null?"":data.profile);
+        $('#infomationModal').modal("show");
+    }
+</script>
+    </div>
+    <div class="modal" id="video_player_modal" data-keyboard="false" style="z-index:2002">
+            <div class="modal-dialog">
+                <div class="modal-body" style="padding: 0">
+                    <a href="javascript:;" onClick="close_video_player()" style="position:absolute;color:white;z-index:99999;right:5px;top: 3px;">关闭</a>
+                    <div class="prism-player" id="J_prismPlayer" ></div>
+                </div>
+            </div>
+        </div>
+</body>
+<!-- <script language="JavaScript" type="text/javascript" src="static/js/kr/object.js"></script> -->
+<script>
+    $(function(){
+        initPano();
+        $("#shareDiv img").attr('src','static/images/skin1/vr-btn-share.png');
+        $("#profileDiv img").attr('src','static/images/skin1/vr-btn-desc.png');
+    })
+    function custom_logo_init(data){
+        var logoObj = data.custom_logo;
+        if(logoObj){
+            if(logoObj.useCustomLogo=='1')
+                $('.vrshow_container_logo img').attr('src',logoObj.logoImgPath);
+            else
+                $('.vrshow_container_logo img').attr('src','resource/images/custom_logo.png');
+            if(logoObj.logoLink)
+                $('.vrshow_container_logo img').attr('onclick','javascript:window.open("'+logoObj.logoLink+'")');
+            
+        }
+    }
+    
+</script>
+</html>
