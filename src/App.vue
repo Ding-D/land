@@ -9,16 +9,16 @@ export default {
     return {}
   },
   methods: {
-    // async myinit() {
-    //   const { data: res } = await this.$http.post('login', {
-    //     username: 'admin',
-    //     password: '123456'
-    //   })
-    //   console.log(res)
-    // }
+    async myinit() {
+      const { data: res } = await this.$http.post('login', {
+        username: 'admin',
+        password: '123456'
+      })
+      console.log(res)
+    }
   },
   mounted() {
-    // this.myinit()
+    this.myinit()
   }
 }
 </script>

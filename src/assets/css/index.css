@@ -1,0 +1,204 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.fontColorBlue {
+  color: #61d2f7;
+}
+.el-container {
+  width: 100%;
+  height: 100vh;
+}
+.el-container .el-header {
+  background-color: #030829;
+  color: #fff;
+}
+.el-container .el-header .left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  float: left;
+}
+.el-container .el-header .left .logo {
+  float: left;
+  margin-right: 30px;
+}
+.el-container .el-header .left .logo h1 {
+  margin: 0;
+}
+.el-container .el-header .left .choose {
+  float: right;
+}
+.el-container .el-header .left .choose a {
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+  padding-bottom: 16px;
+  margin-left: 20px;
+}
+.el-container .el-header .left .choose a.router-link-exact-active {
+  border-bottom: 4px solid #4b8df8;
+}
+.el-container .el-header .right {
+  height: 100%;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+.el-container .el-header .right .el-dropdown-link {
+  cursor: pointer;
+  color: #fff;
+}
+.el-container .el-header .right .el-icon-arrow-down {
+  font-size: 12px;
+}
+.el-container .el-main {
+  background-color: #081832;
+  color: #fff;
+  padding-top: 40px;
+}
+.mainbox {
+  width: 100%;
+  height: 100%;
+  min-height: 800px;
+  display: flex;
+  flex-direction: row;
+}
+.mainbox .left {
+  width: 25%;
+  margin-right: 10px;
+}
+.mainbox .right {
+  width: 25%;
+  margin-left: 10px;
+}
+.mainbox .left-box {
+  background-color: transparent;
+  width: 25%;
+  margin-right: 5px;
+}
+.mainbox .right-box {
+  background-color: transparent;
+  width: 75%;
+}
+.mainbox .up {
+  height: 35%;
+  margin-bottom: 10px;
+}
+.mainbox .down {
+  height: calc(65% - 40px);
+  margin-top: 40px;
+}
+.mainbox .title {
+  width: 200px;
+  height: 35px;
+  position: absolute;
+  background: #034c6a;
+  border-radius: 20px;
+  top: -17.5px;
+  left: 50%;
+  margin-left: -100px;
+  text-align: center;
+  line-height: 35px;
+  font-weight: 600;
+  font-size: 18px;
+}
+.mainbox .select {
+  width: 100%;
+  height: 100%;
+  padding-top: 40px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.mainbox .select > div {
+  margin-bottom: 50px;
+}
+.mainbox .table {
+  width: 100%;
+  height: 100%;
+  padding-top: 25px;
+  overflow: hidden;
+}
+.mainbox .center {
+  width: 50%;
+  height: 100%;
+  box-shadow: 0px 0 55px rgba(255, 255, 255, 0.1) inset;
+  position: relative;
+  border: 1px solid #034c6a;
+}
+.mainbox > div {
+  border-radius: 5px;
+}
+.mainbox > div > div {
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0px 0 55px rgba(255, 255, 255, 0.1) inset;
+  border: 1px solid #034c6a;
+}
+.mainbox #myChart {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.mainbox .el-table,
+.mainbox .el-table__expanded-cell {
+  background-color: transparent;
+}
+.mainbox .el-table th,
+.mainbox .el-table tr {
+  background-color: transparent;
+}
+.mainbox .el-table td,
+.mainbox .el-table th.is-leaf,
+.mainbox .el-table--border,
+.mainbox .el-table--group {
+  border-color: transparent !important;
+}
+.mainbox .el-table--border::after,
+.mainbox .el-table--group::after,
+.mainbox .el-table::before {
+  background-color: transparent !important;
+}
+.mainbox .el-table__body-wrapper::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}
+.mainbox .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 3px;
+}
+.mainbox .el-table__body-wrapper::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+  border: 0;
+}
+.mainbox .el-button + .el-button {
+  margin-left: 0px;
+}
+.mainbox .el-date-editor .el-range-separator {
+  width: 6%;
+}
+.mainbox .el-table .cell {
+  line-height: 1.3;
+}
+.mainbox .el-table th > .cell {
+  color: #61d2f7;
+  font-weight: bold;
+}
+.mainbox .el-pagination .el-pagination__total,
+.mainbox .el-pagination .btn-prev,
+.mainbox .el-pagination .btn-next,
+.mainbox .el-pagination .el-pager li {
+  color: #fff;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 600;
+}
+.mainbox .el-pagination .el-pager li.active {
+  color: red;
+  cursor: default;
+}

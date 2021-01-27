@@ -44,7 +44,7 @@
   </div>
 </template>
 <script>
-import { parseDateStr } from '@/static/js/common.js'
+import { parseDateStr } from '@/assets/js/common.js'
 
 export default {
   data() {

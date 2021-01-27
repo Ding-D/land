@@ -129,7 +129,7 @@ export default {
     this.tableListData = this.tableDataArr[0]
     this.CZJCtableData = arr
     this.JRXTZZtableData = arr
-    console.log(this.tableDataArr)
+    // console.log(this.tableDataArr)
 
     for (var i = 0; i < 30; i++) {
       this.DMoptions.push({
@@ -144,7 +144,7 @@ export default {
   },
   methods: {
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
       this.tableListData = this.tableDataArr[val - 1]
     },
     tableDataClick(r, c, e) {
