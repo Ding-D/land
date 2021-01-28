@@ -3,26 +3,26 @@
     <div class="left-box">
       <div class="select" style="padding-top: 50px;border:0;">
         <div class="station">
-          <span style="margin-right: 16px;">站点：</span>
-          <el-select v-model="YBMXvalue" filterable placeholder="请选择">
-            <el-option v-for="item in YBMXoptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+          <span class="selectFont" style="margin-right: 16px;">站点：</span>
+          <el-select v-model="stationvalue" filterable placeholder="请选择">
+            <el-option v-for="item in stationoptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </div>
         <div class="year" v-show="ZRBBchange">
-          <span style="margin-right: 16px;">年份：</span>
-          <el-select v-model="YBDMvalue" filterable placeholder="请选择">
-            <el-option v-for="item in YBDMoptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+          <span class="selectFont" style="margin-right: 16px;">年份：</span>
+          <el-select v-model="YEARvalue" filterable placeholder="请选择">
+            <el-option v-for="item in YEARoptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </div>
         <div class="jcl" v-show="GCXchange">
-          <span>监测量：</span>
-          <el-select v-model="YBDMvalue" filterable placeholder="请选择">
-            <el-option v-for="item in YBDMoptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+          <span class="selectFont">监测量：</span>
+          <el-select v-model="JCLvalue" filterable placeholder="请选择">
+            <el-option v-for="item in JCLoptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </div>
         <div class="dateBlock" v-show="GCXchange">
           <el-date-picker
-            v-model="value2"
+            v-model="dateBlockValue"
             type="datetimerange"
             align="right"
             unlink-panels
@@ -34,8 +34,8 @@
           >
           </el-date-picker>
         </div>
-        <el-button style="display:block; margin-bottom: 20px;" @click="ZRBBchangeClick()">查看逐日报表</el-button>
-        <el-button style="display:block; margin-bottom: 0px;" @click="GCXchangeClick()">查看过程线</el-button>
+        <el-button type="primary" style="display:block; margin-bottom: 20px;" @click="ZRBBchangeClick()">查看逐日报表</el-button>
+        <el-button type="primary" style="display:block;" @click="GCXchangeClick()">查看过程线</el-button>
       </div>
     </div>
     <div class="right-box">
@@ -50,22 +50,29 @@ export default {
   data() {
     return {
       // 站点数据
-      YBMXoptions: [
+      stationoptions: [
         {
           value: '选项1',
           label: '黄金糕'
         }
       ],
-      YBMXvalue: '',
+      stationvalue: '',
       // 年份
-      YBDMoptions: [
+      YEARoptions: [
         {
           value: '选项1',
           label: '黄金糕'
         }
       ],
-      YBDMvalue: '',
+      YEARvalue: '',
       // 监测量
+      JCLoptions: [
+        {
+          value: '选项1',
+          label: '黄金糕'
+        }
+      ],
+      JCLvalue: '',
       // 开始时间
       // 结束时间
       // 右侧表格数据
@@ -152,9 +159,10 @@ export default {
           }
         ]
       },
-      value1: '',
-      value2: '',
+      dateBlockValue: '',
+      // 逐日报表选择栏显示隐藏
       ZRBBchange: false,
+      // 工程线选择栏显示隐藏
       GCXchange: false
     }
   },

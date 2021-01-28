@@ -3,6 +3,7 @@
     <div class="left">
       <div class="up">
         <div class="title">
+          <span class="iconfont">&#xe614; </span>
           浸润线时间列表
         </div>
         <div class="table" style="height: 85%;">
@@ -22,15 +23,18 @@
         <el-pagination
           @current-change="handleCurrentChange"
           :current-page="1"
+          :pager-count="5"
           :page-size="pagination.size"
-          layout="total, prev, pager, next"
+          layout="total, prev, pager, next,jumper"
           :total="pagination.total"
-          style="height: 15px; width: 100%;display:flex; justify-content: center;"
+          style="width: 100%; text-align: center; overflow:auto;"
         >
         </el-pagination>
       </div>
       <div class="down">
         <div class="title">
+          <span class="iconfont">&#xe614; </span>
+
           浸润线特征值
         </div>
         <div class="table" style="height: 85%;">
@@ -50,12 +54,14 @@
     </div>
     <div class="center">
       <div class="title">
+        <span class="iconfont">&#xe61d;</span>
         浸润线实时监测
       </div>
     </div>
     <div class="right">
       <div class="up">
         <div class="title">
+          <span class="iconfont">&#xe614; </span>
           选择断面
         </div>
         <div class="select">
@@ -68,6 +74,7 @@
       </div>
       <div class="down">
         <div class="title">
+          <span class="iconfont">&#xe614; </span>
           测站监测
         </div>
         <div class="select">
@@ -144,14 +151,11 @@ export default {
   },
   methods: {
     handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`)
+      console.log(`当前页: ${val}`)
       this.tableListData = this.tableDataArr[val - 1]
     },
     tableDataClick(r, c, e) {
-      // console.log(r, c, e)
-      // console.log(e.target)
       var trArr = this.$refs.tableDataRef.$el.children[2].children[0].children[1].children
-      // console.log(trArr)
       for (var i = 0; i < trArr.length; i++) {
         if (trArr[i].children[0].children[0] === e.target) {
           trArr[i].children[0].children[0].style.background = 'red'

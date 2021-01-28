@@ -39,7 +39,8 @@ import {
   Upload,
   Dropdown,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  DatePicker
 } from 'element-ui'
 
 Vue.use(Button)
@@ -80,6 +81,7 @@ Vue.use(Upload)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
+Vue.use(DatePicker)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

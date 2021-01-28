@@ -2,10 +2,14 @@
   <div id="index" class="mainbox">
     <div class="left">
       <div class="up">
-        <div class="title">设备运行状态</div>
+        <div class="title">
+          <span class="iconfont"> &#xe626;</span>
+          设备运行状态
+        </div>
       </div>
       <div class="down">
         <div class="title">
+          <span class="iconfont" style="color: red;">&#xe65e;</span>
           设备故障信息
         </div>
         <div class="table" style="height: 100%;">
@@ -27,16 +31,18 @@
     </div>
     <div class="center">
       <div class="title">
+        <span class="iconfont">&#xe60a;</span>
         实时监测
       </div>
     </div>
     <div class="right">
       <div class="up">
         <div class="title">
+          <span class="iconfont">&#xe614;</span>
           选择断面
         </div>
         <div class="select">
-          <div class="dm" style="margin-bottom: 30px;">
+          <div class="DM" style="margin-bottom: 30px;">
             <el-select v-model="DMvalue" placeholder="请选择">
               <el-option v-for="item in DMoptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
             </el-select>
@@ -45,13 +51,14 @@
       </div>
       <div class="down">
         <div class="title">
+          <span class="iconfont">&#xe622;</span>
           实时水情
         </div>
         <div class="select">
-          <div class="realtime" style="margin-bottom: 30px;">
+          <div class="TYPE" style="margin-bottom: 30px;">
             <span class="fontColorBlue" style="font-size: 14px; ">测站类型：</span>
-            <el-select v-model="realtimeCvalue" placeholder="请选择" size="mini">
-              <el-option v-for="item in realtimeOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+            <el-select v-model="TYPEvalue" placeholder="请选择" size="mini">
+              <el-option v-for="item in TYPEoptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
             </el-select>
           </div>
           <div class="table" style="height: 100%; padding:0;">
@@ -80,9 +87,19 @@ export default {
     return {
       breakInforTableData: [],
       DMvalue: '',
-      DMoptions: [],
-      realtimeCvalue: '',
-      realtimeOptions: [],
+      DMoptions: [
+        {
+          value: '选项1',
+          label: '黄金糕'
+        }
+      ],
+      TYPEvalue: '',
+      TYPEoptions: [
+        {
+          value: '选项1',
+          label: '黄金糕'
+        }
+      ],
       realtimeTableData: []
     }
   },
@@ -96,6 +113,8 @@ export default {
       })
     }
     this.breakInforTableData = arr
+    // this.$route.params.pcode = 60
+    // console.log(this.$route)
   }
 }
 </script>

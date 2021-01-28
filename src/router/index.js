@@ -26,7 +26,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'hash', // 去掉url中的#
+  mode: 'history', //  history 去掉url中的#   --- hash
   routes
 })
 

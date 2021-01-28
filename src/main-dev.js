@@ -2,13 +2,14 @@ import Vue from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
-import '@/assets/css/index.css'
 import '@/assets/js/element.js'
+import '@/assets/css/index.css'
 // 导入 NProgress 包对应的JS和CSS
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import axios from 'axios'
 import _ from 'lodash'
+
 // //导入vue-quill-editor（富文本编辑器）
 // import VueQuillEditor from 'vue-quill-editor'
 // //导入vue-quill-editor的样式

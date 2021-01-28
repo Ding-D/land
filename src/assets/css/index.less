@@ -1,3 +1,22 @@
+@font-face {
+  font-family: 'iconfont';
+  src: url('./iconfont/iconfont.eot');
+  src: url('./iconfont/iconfont.eot?#iefix') format('embedded-opentype'),
+    url('./iconfont/iconfont.woff2') format('woff2'),
+    url('./iconfont/iconfont.woff') format('woff'),
+    url('./iconfont/iconfont.ttf') format('truetype'),
+    url('./iconfont/iconfont.svg#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 25px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-right: 5px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -17,6 +36,7 @@
     color: #fff;
 
     .left {
+      width: auto;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -26,8 +46,16 @@
       .logo {
         float: left;
         margin-right: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          display: inline-block;
+        }
 
         h1 {
+          display: inline-block;
           margin: 0;
         }
       }
@@ -70,8 +98,13 @@
 
   .el-main {
     background-color: #081832;
+    // background-color: #ccc;
     color: #fff;
-    padding-top: 40px;
+    padding-top: 10px;
+
+    marquee {
+      margin-bottom: 20px;
+    }
   }
 }
 
@@ -92,18 +125,16 @@
     margin-left: 10px;
   }
 
-  .left-box {
-    background-color: transparent;
-    width: 25%;
-    margin-right: 5px;
-  }
-
-  .right-box {
-    background-color: transparent;
-    width: 75%;
+  .center {
+    width: 50%;
+    height: 100%;
+    box-shadow: 0px 0 55px rgba(255, 255, 255, 0.1) inset;
+    position: relative;
+    border: 1px solid #034c6a;
   }
 
   .up {
+    width: 100%;
     height: 35%;
     margin-bottom: 10px;
   }
@@ -122,10 +153,12 @@
     top: -17.5px;
     left: 50%;
     margin-left: -100px;
-    text-align: center;
     line-height: 35px;
     font-weight: 600;
     font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .select {
@@ -148,12 +181,18 @@
     overflow: hidden;
   }
 
-  .center {
-    width: 50%;
-    height: 100%;
-    box-shadow: 0px 0 55px rgba(255, 255, 255, 0.1) inset;
-    position: relative;
-    border: 1px solid #034c6a;
+
+
+  //逐日报表
+  .left-box {
+    background-color: transparent;
+    width: 25%;
+    margin-right: 5px;
+  }
+
+  .right-box {
+    background-color: transparent;
+    width: 75%;
   }
 
   >div {
@@ -205,18 +244,18 @@
   // 边框颜色 start---------------------------------------------------
 
   // 滚动条的宽度 start-----------------------------------------------
-  .el-table__body-wrapper::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     width: 15px; // 横向滚动条
     height: 15px; // 纵向滚动条 必写
   }
 
   // 滚动条的滑块
-  .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     background-color: #ddd;
     border-radius: 3px;
   }
 
-  .el-table__body-wrapper::-webkit-scrollbar-track-piece {
+  ::-webkit-scrollbar-track-piece {
     //滚动条凹槽的颜色，还可以设置边框属性
     background-color: transparent;
     border: 0;
@@ -248,15 +287,29 @@
   // el-tabel样式问题 end--------------------------------------------------
 
   .el-pagination {
+    font-size: 14px;
 
     .el-pagination__total,
     .btn-prev,
     .btn-next,
     .el-pager li {
+      margin: 0;
       color: #fff;
       background: transparent;
-      font-size: 16px;
       font-weight: 600;
+    }
+
+    .btn-prev,
+    .btn-next {
+      padding: 0;
+    }
+
+    .el-pagination__jump {
+      margin: 0;
+
+      .el-input {
+        width: 40px;
+      }
     }
 
     .el-pager li.active {
@@ -264,4 +317,34 @@
       cursor: default;
     }
   }
+}
+
+// 弹框样式
+// .el-dialog {
+//   background-color: #081832;
+//   border-radius: 5px;
+//   box-shadow: 0px 0 55px rgba(255, 255, 255, 0.1) inset;
+//   border: 1px solid #034c6a;
+// }
+.el-dialog__header {
+  .el-dialog__title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.el-dialog__body {
+  display: flex;
+  justify-content: center;
+}
+
+// 字体样式
+.selectFont {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+// 逐日报表时间选择栏{
+.el-range-separator {
+  font-weight: 600;
 }

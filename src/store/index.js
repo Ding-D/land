@@ -6,21 +6,17 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // viewSrc: ''
+    pcode: null
   },
   mutations: {
-    // change(state) {
-    //   console.log(__dirname, path)
-    //   console.log(location)
-    //   // state.viewSrc = path.join('http://localhost:8888', '/vue/land/src/static/tour/index.html')
-    //   // state.viewSrc = '../static/tour/index.html'
-    //   state.viewSrc = '../../../public/tour/index.html'
-    //   console.log(state.viewSrc)
-    // }
+    change(state) {
+      state.pcode = 60
+    }
   },
   actions: {
-    handle(mutations) {
-      // mutations.change()
+    handle(vuex) {
+      console.log(vuex)
+      vuex.commit('change')
     }
   },
   modules: {}
