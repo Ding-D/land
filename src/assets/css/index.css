@@ -80,10 +80,12 @@
 .el-container .el-main {
   background-color: #081832;
   color: #fff;
-  padding-top: 10px;
+  padding-top: 50px;
 }
 .el-container .el-main marquee {
-  margin-bottom: 20px;
+  position: fixed;
+  top: 70px;
+  z-index: 99999;
 }
 .mainbox {
   width: 100%;
